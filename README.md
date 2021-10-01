@@ -27,9 +27,10 @@ by default The server API can be viewed at
 http://localhost:9002/swagger-ui.html
 
 
+
 The application is not complete
-- At user disconnection the game is not cleared down so another game could potentially start wihout restarting the server.
+- At user disconnection the game is not cleared down, so another game could potentially start wihout restarting the server.
 - https is not supported(only http required)
-- persistance of teh game state at sewrver shutdown is not supported.
-- logging and error handling in the client is not complete
-- some unit tests are privied but more would be needed.
+- Persistance of the game state at server shutdown is not supported.
+- Logging and error handling in the client is not complete.
+- Some unit tests are provided but more would be needed.
