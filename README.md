@@ -1,2 +1,35 @@
 # wetday
 temporary repository
+
+clone the repository
+git clone https://github.com/bartmcd/wetday.git
+
+in 'wetday/connectstart' run
+mnv clean install
+mvn spring-boot:run  (to start sertver)
+
+in 'wetday/connect4jclient' run
+mnv clean install
+
+then open 2 terminals and run
+mvn exec:java
+in each terminal
+
+
+By default the server runs on port 9002 on the same host as the clients, the port can be changed in  'src/main/resources/application.properties'
+server.port=9002
+
+If the port is changed the the client can be run against the new host port combination as below
+mvn exec:java -Dexec.args="localhost:9003"
+
+
+by default The server API can be viewed at
+http://localhost:9002/swagger-ui.html
+
+
+The application is not complete
+- At user disconnection the game is not cleared down so another game could potentially start wihout restarting the server.
+- https is not supported(only http required)
+- persistance of teh game state at sewrver shutdown is not supported.
+- logging and error handling in the client is not complete
+- some unit tests are privied but more would be needed.
