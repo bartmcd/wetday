@@ -8,8 +8,12 @@ import org.springframework.web.client.RestTemplate;
 
 public class Connect4jApplication {
 
+    private static String deleteUrl;
+
 
     public static void main(String[] args) {
+
+        deleteUrl = args.length == 0 ? String.format(Constants.USER_URL,Constants.HOST_AND_PORT) : String.format(Constants.USER_URL,args[0]);
 
         Connect4jClient client = new Connect4jClient();
         // create thread object
@@ -38,7 +42,7 @@ public class Connect4jApplication {
             RestTemplate restTemplate = new RestTemplate();
 
             HttpEntity<UserDTO> request = new HttpEntity<UserDTO>(client.getUser());
-            String url = Constants.USER_URL+client.getUser().getUserState();
+            String url = deleteUrl+client.getUser().getUserState();
             restTemplate.delete(url);
 
             System.out.println("shutdown complete");

@@ -23,6 +23,12 @@ public class Connect4jClient {
     private UserDTO user;
 
     public void run(String[] args) {
+
+        String userUrl = args.length == 0 ? String.format(Constants.USER_URL,Constants.HOST_AND_PORT) : String.format(Constants.USER_URL,args[0]);
+        String stateUrl = args.length == 0 ? String.format(Constants.STATE_URL,Constants.HOST_AND_PORT) : String.format(Constants.STATE_URL,args[0]);
+        String moveUrl = args.length == 0 ? String.format(Constants.MOVE_URL,Constants.HOST_AND_PORT) : String.format(Constants.MOVE_URL,args[0]);
+
+
         Scanner scanner = new Scanner(System.in);
         System.out.println("Welcome to Connect5, use CTRL-C to exit at any time");
         System.out.println("Please Enter your name :");
@@ -43,13 +49,14 @@ public class Connect4jClient {
 
         //todo  error handling
         //todo logging
+
         HttpEntity<UserDTO> request = new HttpEntity<UserDTO>(user);
-        user = restTemplate.postForObject(Constants.USER_URL, request, UserDTO.class);
+        user = restTemplate.postForObject(userUrl, request, UserDTO.class);
 
 
         boolean print = true;
         while (true) {
-            StateDTO state = restTemplate.getForObject(Constants.STATE_URL, StateDTO.class);
+            StateDTO state = restTemplate.getForObject(stateUrl, StateDTO.class);
             String gameState = state.getGameState();
 
             if (gameState.startsWith(Constants.OVER)) {
@@ -68,7 +75,7 @@ public class Connect4jClient {
                 if ((column < 0) || (column > 9)) {
                     throw new IllegalArgumentException("the entered column in not in the range 0 - 9");
                 }
-                StateDTO moveState = makeMove(restTemplate, column, user);
+                StateDTO moveState = makeMove(moveUrl, restTemplate, column, user);
                 printMatrix(moveState.getMatrix());
                 print = true;
             } else {
@@ -86,9 +93,9 @@ public class Connect4jClient {
         }
     }
 
-    private StateDTO makeMove(RestTemplate restTemplate, Integer column, UserDTO user) {
+    private StateDTO makeMove(String moveUrl, RestTemplate restTemplate, Integer column, UserDTO user) {
         HttpEntity<UserMoveDTO> move = new HttpEntity<UserMoveDTO>(new UserMoveDTO(user.getUserState(), column));
-        StateDTO moveState = restTemplate.postForObject(Constants.MOVE_URL, move, StateDTO.class);
+        StateDTO moveState = restTemplate.postForObject(moveUrl, move, StateDTO.class);
         return moveState;
     }
 
