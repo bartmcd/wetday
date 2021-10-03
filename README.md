@@ -9,7 +9,7 @@ In the directory wetday/connectstart run
 and 
 'mvn spring-boot:run'(to start server) 
 
-In the wetday/connect4jclient run 
+In the directory wetday/connect4jclient run 
 'mnv clean install' 
 
 Then to play the game, for each Player(User), open a terminal in the directory wetday/connect4jclient and run 
